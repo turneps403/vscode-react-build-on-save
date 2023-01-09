@@ -1,26 +1,41 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import {BuildOnSaveExtension} from './build-on-save';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
-
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
+export function activate(context: vscode.ExtensionContext): BuildOnSaveExtension {
 	console.log('Congratulations, your extension "react-build-on-save" is now active!');
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('react-build-on-save.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from React: build on save!');
-	});
+	let extension = new BuildOnSaveExtension(context)
 
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(
+		// vscode.workspace.onDidChangeConfiguration(() => {
+		// 	extension.loadConfig()
+		// }),
+
+		vscode.commands.registerCommand('extension.enableReactBuildOnSave', () => {
+			extension.setEnabled(true)
+		}),
+
+		vscode.commands.registerCommand('extension.disableReactBuildOnSave', () => {
+			extension.setEnabled(false)
+		}),
+
+		vscode.commands.registerCommand('extension.doReactTapAndBuild', () => {
+			extension.buildBecauseTap()
+		}),
+
+		vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
+			extension.onDocumentSaved(document)
+		}),
+	)
+
+	return extension
+
+
+	// let disposable = vscode.commands.registerCommand('react-build-on-save.helloWorld', () => {
+	// 	vscode.window.showInformationMessage('Hello World from React: build on save!');
+	// });
+
+	// context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() {}

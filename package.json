@@ -1,24 +1,52 @@
 {
   "name": "react-build-on-save",
   "displayName": "React: build on save",
-  "description": "",
+  "description": "The simplest extension which will rebuild your React app every time you save the file",
   "icon": "images/logo.png",
+  "license": "MIT",
   "version": "0.0.1",
+  "publisher": "turneps403",
+  "homepage": "https://github.com/turneps403/vscode-react-build-on-save",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/turneps403/vscode-react-build-on-save"
+	},
+	"bugs": {
+		"url": "https://github.com/turneps403/vscode-react-build-on-save/issues"
+	},
   "engines": {
     "vscode": "^1.74.0"
   },
   "categories": [
     "Other"
   ],
+  "keywords": [
+		"build on save",
+		"react autobuild on save",
+		"react build",
+    "save and rebuild"
+  ],
   "activationEvents": [
-    "onCommand:react-build-on-save.helloWorld"
+    "*"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
+			{
+				"command": "extension.enableReactBuildOnSave",
+				"title": "React: build on save: Enable"
+			},
+			{
+				"command": "extension.disableReactBuildOnSave",
+				"title": "React: build on save: Disable"
+			}
+		],
+    "keybindings": [
       {
-        "command": "react-build-on-save.helloWorld",
-        "title": "Hello World"
+          "command": "extension.doReactTapAndBuild",
+          "key": "ctrl+alt+0",
+          "mac": "Cmd+[IntlBackslash]",
+          "when": "editorFocus"
       }
     ]
   },
